@@ -11,7 +11,7 @@ import { HeroListComponent } from './heroes/hero-list/hero-list.component';
 import { HeroService } from './heroes/shared/hero.service';
 import { ZeroPaddingPipe } from './shared/zero-padding.pipe';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService }  from './in-memory-data.service';
+import { InMemoryDataService }  from './core/in-memory-data.service';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import { InMemoryDataService }  from './in-memory-data.service';
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
   ],
   providers: [
     HeroService,
