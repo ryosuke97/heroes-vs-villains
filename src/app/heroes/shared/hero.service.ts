@@ -8,33 +8,42 @@ import { Hero } from './hero';
 @Injectable()
 export class HeroService {
 
-  // api
+  // apiのURL
   private heroesUrl = 'api/heroes';
 
   constructor(private http: Http) { }
 
-  getHeroes(): Promise<Hero[]> {
-    return this.http.get(this.heroesUrl).toPromise()
-    .then(response => response.json().data as Hero[])
-    .catch(this.handleError);
+  private headers = new Headers({'Content-Type': 'application/json'});
+
+  // ヒーロー情報を更新する
+  update(hero: Hero): Promise<Hero> {
+    const url = `${this.heroesUrl}/${hero.id}`;
+    return this.http
+    .put(url, JSON.stringify(hero), {headers: this.headers})
+    .toPromise()
+    .then(() => hero) // 成功したらヒーローを返す
+    .catch(this.handleError); // 失敗したらエラー処理を返す
   }
 
+  getHeroes(): Promise<Hero[]> {
+    return this.http.get(this.heroesUrl)
+    .toPromise()
+    .then(response => response.json().data as Hero[]) // 成功したらHero配列としてもつ
+    .catch(this.handleError); // 失敗したらエラー処理を返す
+  }
+
+  // 通信失敗時はエラーのログを出す
   private handleError(error: any): Promise<any> {
   console.error('エラー！！', error);
   return Promise.reject(error.message || error);
-  }
-
-  getHeroesSlowly(): Promise<Hero[]> {
-    return new Promise<Hero[]>(resolve => setTimeout(resolve, 2000)) // delay 2 seconds
-      .then(() => this.getHeroes());
   }
 
   getHero(id: number): Promise<Hero> {
   const url = `${this.heroesUrl}/${id}`;
   return this.http.get(url)
     .toPromise()
-    .then(response => response.json().data as Hero)
-    .catch(this.handleError);
+    .then(response => response.json().data as Hero) // 成功したらHero情報をもつ
+    .catch(this.handleError); // 失敗したらエラー処理を返す
 }
 
 }
