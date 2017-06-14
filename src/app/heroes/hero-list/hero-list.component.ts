@@ -35,7 +35,7 @@ export class HeroListComponent implements OnInit {
     this.router.navigate(['/heroes/hero', this.selectedHero.id]);
   }
 
-  // ヒーローを新しく作成して追加する
+  // ヒーローを新しく作成してリストに追加
   add(name: string): void {
     name = name.trim();
     if (!name) { return; }
@@ -44,6 +44,18 @@ export class HeroListComponent implements OnInit {
         this.heroes.push(hero);
         this.selectedHero = null;
       });
+  }
+
+  // ヒーローをリストから削除
+  delete(hero: Hero): void {
+    this.heroService
+    .delete(hero.id)
+    .then(() => {
+      this.heroes = this.heroes.filter(h => h !== hero);
+      if (this.selectedHero === hero) {
+        this.selectedHero = null;
+      }
+    });
   }
 
 }
