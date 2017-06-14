@@ -40,10 +40,19 @@ export class HeroService {
 
   getHero(id: number): Promise<Hero> {
   const url = `${this.heroesUrl}/${id}`;
-  return this.http.get(url)
-    .toPromise()
-    .then(response => response.json().data as Hero) // 成功したらHero情報をもつ
-    .catch(this.handleError); // 失敗したらエラー処理を返す
-}
+    return this.http.get(url)
+      .toPromise()
+      .then(response => response.json().data as Hero) // 成功したらHero情報をもつ
+      .catch(this.handleError); // 失敗したらエラー処理を返す
+  }
+
+  
+  create(name: string): Promise<Hero> {
+    return this.http
+      .post(this.heroesUrl, JSON.stringify({name: name}), {headers: this.headers})
+      .toPromise()
+      .then(res => res.json().data)
+      .catch(this.handleError);
+  }
 
 }
