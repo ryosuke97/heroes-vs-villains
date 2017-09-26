@@ -26,6 +26,7 @@ import { InMemoryDataService } from './core/in-memory-data.service';
     AppRoutingModule,
     FormsModule,
     HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
   ],
   providers: [
     HeroService,
