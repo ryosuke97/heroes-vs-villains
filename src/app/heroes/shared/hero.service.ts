@@ -4,13 +4,12 @@ import { Http, Headers } from "@angular/http";
 import 'rxjs/add/operator/toPromise';
 
 import { Hero } from './hero';
-import { InMemoryDataService } from '../../core/in-memory-data.service';
 
 @Injectable()
 export class HeroService {
 
   // apiのURL
-  private heroesUrl = 'app/core/heroes';
+  private heroesUrl = 'api/heroes';
 
   constructor(private http: Http) {  }
 
@@ -24,8 +23,8 @@ export class HeroService {
   }
 
   getHero(id: number): Promise<Hero> {
-    return this.getHeroes()
-      .then(heroes => heroes.find(hero => hero.id === id));
+    const url = '${this.heroesUrl}/${id}';
+    return this.http.get(url).toPromise().then(response => response.json().data as Hero).catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
