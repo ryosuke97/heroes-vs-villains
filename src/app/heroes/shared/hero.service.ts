@@ -2,7 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 import { Hero } from './hero';
-import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/toPromise'; // あとで消す
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+
 
 @Injectable()
 export class HeroService {
@@ -12,14 +16,16 @@ export class HeroService {
 
   constructor(private http: Http) {}
 
-  getHeroes(): Promise<Hero[]> {
-    return this.http.get(this.heroesUrl).toPromise().then(response => response.json().data as Hero[]).catch(this.handleError);
+  getHeroes(): Observable<Hero[]> {
+    // return this.http.get(this.heroesUrl).toPromise().then(response => response.json().data as Hero[]).catch(this.handleError);
+    return this.http.get(this.heroesUrl)
+      .map(res => res.json().data as Hero[]);
   }
 
-  getHeroesSlowly(): Promise<Hero[]> {
-    return new Promise<Hero[]>(resolve => setTimeout(resolve, 2000)) // delay 2 seconds
-      .then(() => this.getHeroes());
-  }
+  // getHeroesSlowly(): Promise<Hero[]> {
+  //   return new Promise<Hero[]>(resolve => setTimeout(resolve, 2000)) // delay 2 seconds
+  //     .then(() => this.getHeroes());
+  // }
 
   getHero(id: number): Promise<Hero> {
     const url = `${this.heroesUrl}/${id}`;

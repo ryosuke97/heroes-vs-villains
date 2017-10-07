@@ -1,3 +1,4 @@
+import * as console from 'console';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -24,7 +25,7 @@ export class HeroListComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
+    this.heroService.getHeroes().map(heroes => this.heroes = heroes);
   }
 
   onSelect(hero: Hero): void {
