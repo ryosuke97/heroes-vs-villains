@@ -27,13 +27,14 @@ export class HeroService {
   //     .then(() => this.getHeroes());
   // }
 
-  getHero(id: number): Promise<Hero> {
+  getHero(id: number): Observable<Hero> {
     const url = `${this.heroesUrl}/${id}`;
-    return this.http.get(url).toPromise().then(response => response.json().data as Hero).catch(this.handleError);
+    // return this.http.get(url).toPromise().then(response => response.json().data as Hero).catch(this.handleError);
+    return this.http.get(url)
+    .map(res => res.json().data as Hero);
   }
 
   private handleError(error: any): Promise<any> {
-    console.error('エラー', error);
     return Promise.reject(error.message || error);
   }
 

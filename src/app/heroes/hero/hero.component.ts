@@ -23,7 +23,7 @@ export class HeroComponent implements OnInit {
     this.route.params.forEach((params: Params) => {
       let id = +params['id'];
       this.heroService.getHero(id)
-        .then(hero => this.hero = hero);
+        .map(hero => this.hero = hero);
     });
   }
 
