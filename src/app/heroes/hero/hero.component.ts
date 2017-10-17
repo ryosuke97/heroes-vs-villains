@@ -21,14 +21,18 @@ export class HeroComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
-      let id = +params['id'];
+      const id = +params['id'];
       this.heroService.getHero(id)
-        .map(hero => this.hero = hero);
+        .subscribe(hero => this.hero = hero);
     });
   }
 
   goBack(): void {
     window.history.back();
+  }
+
+  save(): void {
+    this.heroService.update(this.hero).subscribe(() => this.goBack());
   }
 
 }

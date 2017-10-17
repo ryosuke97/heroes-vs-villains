@@ -29,4 +29,10 @@ export class HeroService {
     .map(res => res.json().data as Hero);
   }
 
+  update(hero: Hero): Observable<Hero> {
+    const url = `${this.heroesUrl}/${hero.id}`;
+    return this.http.put(url, JSON.stringify(hero), {headers: this.headers})
+    .map(() => hero);
+  }
+
 }
