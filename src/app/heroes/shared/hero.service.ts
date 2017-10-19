@@ -40,4 +40,10 @@ export class HeroService {
     .map(res => res.json().data as Hero)
   }
 
+  delete(id: number): Observable<void> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.delete(url, {headers: this.headers})
+    .map(() => null);
+  }
+
 }
